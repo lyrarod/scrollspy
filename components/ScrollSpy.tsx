@@ -10,6 +10,28 @@ type Props = {
 
 export function ScrollSpy({ children, to, onClick }: Props) {
   const [hash, setHash] = useState("");
+  const [activeMenu, setActiveMenu] = useState("");
+
+  useEffect(() => {
+    let target = window.location.hash;
+
+    if (target) {
+      document
+        .getElementById(target.slice(1))
+        ?.scrollIntoView({ behavior: "smooth" });
+
+      setActiveMenu(target.slice(1).includes(to) ? "active" : "");
+
+      document.title = `ScrollSpy | ${
+        target?.slice(1).charAt(0)?.toUpperCase() + target?.slice(2)
+      }`;
+    } else {
+      document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+      setActiveMenu(to === "home" ? "active" : "");
+
+      document.title = `ScrollSpy | Home`;
+    }
+  }, []);
 
   useEffect(() => {
     if (history.replaceState) {
@@ -64,16 +86,16 @@ export function ScrollSpy({ children, to, onClick }: Props) {
   const scrollToSection = (e: any, section: string) => {
     e.preventDefault();
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
-    if (onClick) {
-      onClick();
-    }
   };
 
   return (
     <a
       href={`#${to}`}
-      onClick={(e) => scrollToSection(e, to)}
-      className={`${to === "home" ? "active" : ""}`}
+      onClick={(e) => {
+        scrollToSection(e, to);
+        onClick && onClick();
+      }}
+      className={activeMenu}
     >
       {children}
     </a>

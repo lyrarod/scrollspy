@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ScrollSpy } from "@/components";
 
 const links = ["home", "about", "services", "projects", "contact"];
@@ -8,25 +8,7 @@ const links = ["home", "about", "services", "projects", "contact"];
 export function NavBar() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const toggle = () => setMenuIsOpen((prev) => !prev);
-
-  useEffect(() => {
-    let mql = window.matchMedia("(min-width: 480px)");
-
-    const handleChange = ({ matches }: MediaQueryListEvent) => {
-      return console.log("matches:", matches);
-    };
-
-    mql.addEventListener("change", handleChange);
-
-    return () => {
-      mql.removeEventListener("change", handleChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const toggleMenu = () => setMenuIsOpen((prev) => !prev);
 
   return (
     <header className="header">
@@ -44,7 +26,7 @@ export function NavBar() {
         >
           {links.map((link, i) => {
             return (
-              <ScrollSpy key={i} to={link} onClick={toggle}>
+              <ScrollSpy key={i} to={link} onClick={toggleMenu}>
                 {link}
               </ScrollSpy>
             );
@@ -52,7 +34,7 @@ export function NavBar() {
 
           <button
             className={`absolute right-6 top-4 flex fill-slate-500 text-2xl sm:hidden`}
-            onClick={toggle}
+            onClick={toggleMenu}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +48,7 @@ export function NavBar() {
 
         <button
           className={`flex fill-slate-100 text-2xl sm:hidden`}
-          onClick={toggle}
+          onClick={toggleMenu}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
