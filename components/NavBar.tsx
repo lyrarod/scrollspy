@@ -30,7 +30,7 @@ export function NavBar() {
 
   return (
     <header className="header">
-      <div className="container mx-auto flex w-full max-w-5xl items-center justify-between px-6">
+      <div className="container mx-auto flex w-full max-w-6xl items-center justify-between px-6 xl:px-0">
         <a href="#" className="text-xl font-bold uppercase tracking-widest">
           logo
         </a>
